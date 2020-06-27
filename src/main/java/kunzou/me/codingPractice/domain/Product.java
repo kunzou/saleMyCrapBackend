@@ -1,5 +1,6 @@
 package kunzou.me.codingPractice.domain;
 
+import kunzou.me.codingPractice.dto.Image;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;

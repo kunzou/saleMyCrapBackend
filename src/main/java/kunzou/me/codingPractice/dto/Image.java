@@ -1,4 +1,4 @@
-package kunzou.me.codingPractice.domain;
+package kunzou.me.codingPractice.dto;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -1,6 +1,6 @@
 package kunzou.me.codingPractice.service;
 
-import kunzou.me.codingPractice.domain.Image;
+import kunzou.me.codingPractice.dto.Image;
 import org.apache.commons.io.FilenameUtils;
 import org.json.JSONObject;
 import org.springframework.http.HttpEntity;

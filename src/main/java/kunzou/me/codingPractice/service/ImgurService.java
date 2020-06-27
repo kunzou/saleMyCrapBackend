@@ -1,6 +1,6 @@
 package kunzou.me.codingPractice.service;
 
-import kunzou.me.codingPractice.domain.Image;
+import kunzou.me.codingPractice.dto.Image;
 import org.springframework.web.multipart.MultipartFile;
 
 public interface ImgurService {

@@ -1,11 +1,14 @@
 package kunzou.me.codingPractice.controller;
 
-import kunzou.me.codingPractice.domain.Image;
+import kunzou.me.codingPractice.dto.Description;
+import kunzou.me.codingPractice.dto.EmailDetail;
+import kunzou.me.codingPractice.dto.Image;
 import kunzou.me.codingPractice.domain.Product;
-import kunzou.me.codingPractice.service.CachingService;
+import kunzou.me.codingPractice.service.EmailService;
 import kunzou.me.codingPractice.service.ImgurService;
 import kunzou.me.codingPractice.service.ProductService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,21 +22,13 @@ import java.util.List;
 public class Controller {
 
   private ProductService productService;
-  private CachingService cachingService;
   private ImgurService imgurService;
+  private EmailService emailService;
 
-  public Controller(ProductService productService) {
+  public Controller(ProductService productService, ImgurService imgurService, EmailService emailService) {
     this.productService = productService;
-  }
-
-  @Autowired
-  public void setCachingService(CachingService cachingService) {
-    this.cachingService = cachingService;
-  }
-
-  @Autowired
-  public void setImgurService(ImgurService imgurService) {
     this.imgurService = imgurService;
+    this.emailService = emailService;
   }
 
   @GetMapping(value = "/products", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -71,6 +66,20 @@ public class Controller {
   @PostMapping("/uploadFile")
   public Image uploadFile(@RequestParam("file") MultipartFile file) throws Exception {
     return imgurService.uploadImage(file);
+  }
+
+  @PostMapping("/sendEmail")
+  public ResponseEntity sendEmail(@RequestBody EmailDetail emailDetail) {
+    try {
+      emailService.sendEmail(emailDetail);
+      return new ResponseEntity(new Description("邮件发送成功。我们会尽快回复您",
+        "Message sent successfully. We will contact you soon")
+        , new HttpHeaders(), HttpStatus.OK);
+    } catch (Exception e) {
+      return new ResponseEntity(new Description("邮件发送失败，请直接联系204-881-5966",
+        "Message sent unsuccessfully. Please contact 204-881-5966 or email to shery.c.liu@gmail.com"),
+        new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 
 /*  @GetMapping(value = "/customers", produces = MediaType.APPLICATION_JSON_VALUE)
